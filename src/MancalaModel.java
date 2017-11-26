@@ -9,7 +9,8 @@ import java.util.*;
 public class MancalaModel {
 
 	private ArrayList<ChangeListener> theListeners;
-	private int theData[];
+	private int currentData[];
+	private int oldData[];
 	
 	/*
 	 * this is the model class
@@ -17,13 +18,27 @@ public class MancalaModel {
 	//make sure when MancalaModel is created, the array is of size 14
 	MancalaModel(int[] theData)
 	{
-		this.theData = theData;
+		currentData = theData;
+		oldData = currentData;
 		theListeners = new ArrayList<ChangeListener>();
 	}
 	
-	public int[] getData()
+	public int[] getCurrentData()
 	{
-		return theData;
+		return currentData;
+	}
+	
+	public int[] getOldData()
+	{
+		return oldData;
+	}
+	public void setCurrentData(int r_data[])
+	{
+		currentData = r_data;
+	}
+	public void setOldData(int r_data[])
+	{
+		oldData = r_data;
 	}
 	
 	public void attach(ChangeListener e)
@@ -38,5 +53,4 @@ public class MancalaModel {
 			e.stateChanged(new ChangeEvent(this));
 		}
 	}
-	
 }
