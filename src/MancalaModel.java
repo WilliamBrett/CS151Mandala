@@ -12,7 +12,6 @@ public class MancalaModel {
 
 	private int currentData[];
 	private int oldData[];
-	int theData[]; //index 0 starts at bottom left, non score slot and goes right
 
 	
 	/*
