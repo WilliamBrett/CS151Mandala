@@ -9,13 +9,11 @@ import java.util.*;
 public class MancalaModel {
 
 	private ArrayList<ChangeListener> theListeners;
-<<<<<<< Updated upstream
+
 	private int currentData[];
 	private int oldData[];
-=======
-	private int theData[]; //index 0 starts at bottom left, non score slot and goes right
-	
->>>>>>> Stashed changes
+	int theData[]; //index 0 starts at bottom left, non score slot and goes right
+
 	
 	/*
 	 * this is the model class
