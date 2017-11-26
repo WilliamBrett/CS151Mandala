@@ -55,4 +55,29 @@ public class MancalaModel {
 			e.stateChanged(new ChangeEvent(this));
 		}
 	}
+	public boolean isEmpty(int index)
+	{
+		if(currentData[index]==0)
+		{
+			return true;
+		}
+		else
+			return false;
+	}
+	public boolean gameEnd()
+	{
+		int sum = 0;
+		for(int i=0; i<6; i++)
+		{
+			sum = currentData[i] + sum;
+		}
+		for(int i=7; i<13; i++)
+		{
+			sum = currentData[i] + sum;
+		}
+		if(sum==0)
+			return false;
+		else
+			return true;
+	}
 }
