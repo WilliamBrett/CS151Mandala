@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -93,25 +94,35 @@ public class MancalaView extends JFrame implements ChangeListener
 			}
 			
 		} //end of making the bottom and top pits
+		
+		//making number display here
 		JPanel middleDisplay = new JPanel(); //this is used to display the pit labels for both sides
-		GridLayout middleDisplayLayout = new GridLayout(); //the layout, will display the pitnumbers in grid format
-		middleDisplayLayout.setHgap(50); //makes sure there is space between numbers
-		middleDisplayLayout.setColumns(6); //makes sure there is 6 columns max
+		GridLayout middleDisplayLayout = new GridLayout(0,6); //the layout, will display the pitnumbers in grid format
+		middleDisplayLayout.setHgap(5); //makes sure there is space between numbers
 		middleDisplay.setLayout(middleDisplayLayout);
 		
-		for(int i = 0; i < 6; i++) //this loop is putting in the numbers
-		{
-			middleDisplay.add(new JTextField(i));
-		}
 		for(int i = 7; i < 13; i++) //this loop is putting in the numbers
 		{
-			middleDisplay.add(new JTextField(i));
+			String number = "" + i;
+			JTextArea num = new JTextArea(number);
+			num.setSize(5, 5);
+			middleDisplay.add(num);
+		}
+		for(int i = 0; i < 6; i++) //this loop is putting in the numbers
+		{
+			String number = "" + i;
+			JTextArea num = new JTextArea(number);
+			num.setSize(5, 5);
+			middleDisplay.add(num);
 		}
 		
-		theBoard.add(bottomPits);
-		theBoard.add(topPits);
-		theBoard.add(rightPit);
-		theBoard.add(leftPit);
+		//end of  number display making
+		
+		theBoard.add(bottomPits, BorderLayout.SOUTH);
+		theBoard.add(topPits, BorderLayout.NORTH);
+		theBoard.add(rightPit, BorderLayout.EAST);
+		theBoard.add(leftPit, BorderLayout.WEST);
+		theBoard.add(middleDisplay, BorderLayout.CENTER);
 		
 		this.add(theBoard);
 		
