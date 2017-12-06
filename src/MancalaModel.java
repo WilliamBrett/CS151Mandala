@@ -18,9 +18,9 @@ public class MancalaModel {
 	 * this is the model class
 	 */
 	//make sure when MancalaModel is created, the array is of size 14
-	MancalaModel(int[] theData)
+	MancalaModel()
 	{
-		currentData = theData;
+		currentData = new currentData[];
 		oldData = currentData;
 		theListeners = new ArrayList<ChangeListener>();
 	}
