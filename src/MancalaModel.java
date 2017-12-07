@@ -20,7 +20,7 @@ public class MancalaModel {
 	//make sure when MancalaModel is created, the array is of size 14
 	MancalaModel()
 	{
-		currentData = new currentData[];
+		currentData = new int[14];
 		oldData = currentData;
 		theListeners = new ArrayList<ChangeListener>();
 	}
