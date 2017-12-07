@@ -26,7 +26,7 @@ import javax.swing.event.ChangeListener;
 /**
  * Represents the GUI portion or context of the Strategy pattern. This is where the model will interact with the controller and update the view.
  */
-public class View extends JPanel implements ChangeListener {
+public class MancalaView extends JPanel implements ChangeListener {
 	
 	private MancalaModel model;
 	private BoardStyle style;
@@ -39,7 +39,7 @@ public class View extends JPanel implements ChangeListener {
 	 * @param model the model to be used
 	 * @param style the strategy/style to be used for this view.
 	 */
-	public View(MancalaModel model, BoardStyle style) {
+	public MancalaView(MancalaModel model, BoardStyle style) {
 		this.model = model;
 		this.style = style;
 		this.model.attach(this);

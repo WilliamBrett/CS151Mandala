@@ -12,9 +12,9 @@ import javax.swing.*;
 /**
  * Represents the main method to run the program.
  */
-public class MancalaTest {
-		static JFrame styleSelectFrame;
-		static MancalaModel model;
+public class MainTester {
+		static public JFrame styleSelectFrame;
+		static public MancalaModel model;
 		
 	/**
 	 * Main method to run the program.
@@ -22,20 +22,27 @@ public class MancalaTest {
 	 */
 	public static void main(String[] args) {
 		model = new MancalaModel();
+		
+		//here is our opening style select frame
 		styleSelectFrame = new JFrame();
-		styleSelectFrame.setSize(300, 150);
-		JTextArea text = new JTextArea("Welcome to Mancala. Please choose your style.");
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1,2));
+		styleSelectFrame.setSize(400, 100);
+		//this sets the overall frame to list top down
+		JTextArea openingText = new JTextArea("Welcome to Mancala. Please choose your style.");
 		JButton circleView =  new JButton("Circle");
 		JButton squareView = new JButton("Square");
+		
+		//thePanel is put into styleSelectFrame so that we can have our two buttons next to each other neatly
+		JPanel thePanel = new JPanel();
 		circleView.addActionListener(chooseView(new CircleStyle()));
 		squareView.addActionListener(chooseView(new SquareStyle()));
-		panel.add(circleView);
-		panel.add(squareView);
+		thePanel.setLayout(new GridLayout(1,2));
+		thePanel.add(circleView);
+		thePanel.add(squareView);
+		
+		//the opening text will be at the top and the two buttons will be at the bottom
 		styleSelectFrame.setLayout(new BoxLayout(styleSelectFrame.getContentPane(),BoxLayout.Y_AXIS));
-		styleSelectFrame.add(text);
-		styleSelectFrame.add(panel);
+		styleSelectFrame.add(openingText);
+		styleSelectFrame.add(thePanel);
 		styleSelectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		styleSelectFrame.setVisible(true);
 		
@@ -52,7 +59,7 @@ public class MancalaTest {
 				styleSelectFrame.setVisible(false); 
 				JFrame board = new JFrame();
 				final MancalaModel myModel = new MancalaModel();
-				View view = new View(myModel, strat);
+				MancalaView view = new MancalaView(myModel, strat);
 				
 				JPanel inputUndo = new JPanel();
 				inputUndo.setLayout(new FlowLayout());
