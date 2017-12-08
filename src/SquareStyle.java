@@ -18,7 +18,7 @@ import java.awt.geom.Rectangle2D;
 public class SquareStyle implements BoardStyle {
 
 	Shape[] pits;
-	Pit[] modelPits;
+	int[] modelPits;
 	boolean turn;
 	final String mancala = "MANCALA";
 
@@ -71,7 +71,7 @@ public class SquareStyle implements BoardStyle {
 
 		//drawing the stones in each pit
 		for(int i = 0; i < pits.length; i++) {
-			stones = modelPits[i].getStones();
+			stones = modelPits[i];
 			g2.setColor(Color.WHITE);
 			g2.fill(pits[i]);
 
@@ -83,7 +83,7 @@ public class SquareStyle implements BoardStyle {
 				}
 			}
 			if(i==6 | i==13){
-				for(int j = 0; j < modelPits[i].getStones(); j++) {
+				for(int j = 0; j < modelPits[i]; j++) {
 					g2.setColor(new Color((int)(Math.random()*254),(int)(Math.random()*254),(int)(Math.random()*254)));
 					g2.fill(new Rectangle2D.Double((float) pits[i].getBounds2D().getMinX() + (Math.random() * 100) + 10,
 							(float) pits[i].getBounds2D().getMinY() + (Math.random() * 200) + 10, 15, 15));
@@ -92,15 +92,15 @@ public class SquareStyle implements BoardStyle {
 
 			g2.setColor(Color.BLACK);
 			g2.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-			g2.drawString(Integer.toString(modelPits[i].getStones()), (float)pits[i].getBounds2D().getCenterX(), (float)pits[i].getBounds2D().getCenterY());
+			g2.drawString(Integer.toString(modelPits[i]), (float)pits[i].getBounds2D().getCenterX(), (float)pits[i].getBounds2D().getCenterY());
 			g2.drawString("<-- Player B", 425, 60);
 			g2.drawString("--> Player A", 425, 400);
 
 			//this is used to show the winner after the game is over. 
 			if (model.gameOver) {
 				g2.drawString("Game Over!", 450, 420);
-				g2.drawString("Player A score: " + modelPits[6].getStones(), 425, 440);
-				g2.drawString("Player B score: " + modelPits[13].getStones(), 425, 460);
+				g2.drawString("Player A score: " + modelPits[6], 425, 440);
+				g2.drawString("Player B score: " + modelPits[13], 425, 460);
 				g2.setFont(new Font("TimesRoman", Font.BOLD, 25));
 				if(model.p1win) {
 					g2.drawString("Player A wins!", 425, 480);

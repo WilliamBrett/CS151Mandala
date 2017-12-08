@@ -13,7 +13,7 @@ import javax.swing.event.*;
  */
 public class MancalaModel {
 	private ArrayList<ChangeListener> listeners;
-	private Pit[] pits;
+	private int pits[] ;
 	boolean p1turn, p2turn, p1win, p2win, tie, gameStart, gameOver, error;
 	int lastPit,lastPitStones, destinationPit, oppOnesPitStones, p1UndoNum, p2UndoNum;
 	String errorMsg;
@@ -23,9 +23,9 @@ public class MancalaModel {
 	 */
 	public MancalaModel() {
 		listeners = new ArrayList<ChangeListener>();
-		pits = new Pit[14]; 
+		pits = new int[14]; 
 		for(int i = 0; i < pits.length; i++) {
-			pits[i] = new Pit(0);
+			pits[i] = 0;
 		}
 		p1turn = true;
 		tie = p1win = p2win = p2turn = gameStart = gameOver = error = false;
@@ -54,7 +54,7 @@ public class MancalaModel {
 		}
 		
 		//If there are no more stones in the chosen pit.
-		if(pits[i].getStones() == 0) {
+		if(pits[i] == 0) {
 			error = true;
 			errorMsg = "No stones, please choose another pit.";
 			changeState();
@@ -65,7 +65,7 @@ public class MancalaModel {
 		error = false;
 		// used for the undo function.
 		lastPit = i; //the pit that the user clicked on.
-		lastPitStones = pits[i].getStones(); //the number of stones in that pit.
+		lastPitStones = pits[i]; //the number of stones in that pit.
 		
 		
 			int firstPlayerPitStones = 0; //both used to determine when game is over.
@@ -73,35 +73,35 @@ public class MancalaModel {
 			if (p1turn && i >= 0 && i <= 5) { //makes sure that the pit is on firstplayer side.
 				
 				gameStart = true;
-				int stonesInCurrentPit = pits[i].getStones();
-				pits[i].setStones(0); //set chosen pit stones to 0.
+				int stonesInCurrentPit = pits[i];
+				pits[i] = 0; //set chosen pit stones to 0.
 				int mover = i + 1; //this is the value that is used to traverse through the board.
 				//using the current pit's stones, move the stones to each pit following it
 				for (int x = 0; x < stonesInCurrentPit; x++) {
 					if (mover == 13) { //when mover is equal to the index of 2nd player mancala, set mover to first player pit.
 						mover = 0;
 					}
-					pits[mover].setStones(pits[mover].getStones() + 1);
+					pits[mover] = pits[mover] + 1;
 					mover++;
 				}
 				mover = mover - 1; //decrement back 
 				destinationPit = mover; // keeps track of the pit that the last
 										// stone was placed for undo function.
 				// if last pit is on first player side and only has one stone.
-				if (mover >= 0 && mover < 6 && pits[mover].getStones() == 1) {
-					oppOnesPitStones = pits[12-mover].getStones();
-					pits[6].setStones(pits[6].getStones() + pits[12 - mover].getStones());
-					pits[12 - mover].setStones(0);
+				if (mover >= 0 && mover < 6 && pits[mover] == 1) {
+					oppOnesPitStones = pits[12-mover];
+					pits[6] = pits[6] + pits[12 - mover];
+					pits[12 - mover] = 0;
 				}
 
 				// determine if there are any stones left on firstPlayer side.
 				for (int n = 0; n < 6; n++) {
-					firstPlayerPitStones += pits[n].getStones();
+					firstPlayerPitStones += pits[n];
 				}
 
 				// determine if there are any stones left on secondPlayer side.
 				for (int n = 7; n < 13; n++) {
-					secondPlayerPitStones += pits[n].getStones();
+					secondPlayerPitStones += pits[n];
 				}
 
 				// if firstPlayer side has no stones, collect all of second
@@ -132,19 +132,19 @@ public class MancalaModel {
 				if (p2turn && i >= 6 && i <= 12) {
 					
 					int mover = i + 1;
-					int stonesInCurrentPit = pits[i].getStones();
-					pits[i].setStones(0);
+					int stonesInCurrentPit = pits[i];
+					pits[i] = 0;
 					int lastPit = 0;
 					for (int x = 0; x < stonesInCurrentPit; x++) {
 						if (mover == 13) {
-							pits[mover].setStones(pits[mover].getStones() + 1);
+							pits[mover] = pits[mover] + 1;
 							mover = 0;
 							continue;
 						}
 						if (mover == 6) {
 							mover = 7;
 						}
-						pits[mover].setStones(pits[mover].getStones() + 1);
+						pits[mover] = pits[mover] + 1;
 						mover++;
 					}
 					mover = mover - 1;
@@ -155,20 +155,20 @@ public class MancalaModel {
 					destinationPit = mover;
 					}
 					//if the last pit stones equal to 1, take that and the opposite pit's stone and add to secondPlayer mancala.
-					if (mover > 6 && mover < 13 && pits[mover].getStones() == 1) {
-						oppOnesPitStones = pits[12-mover].getStones();
-						pits[13].setStones(pits[13].getStones() +  pits[12 - mover].getStones());
-						pits[12 - mover].setStones(0);
+					if (mover > 6 && mover < 13 && pits[mover] == 1) {
+						oppOnesPitStones = pits[12-mover];
+						pits[13] = pits[13] +  pits[12 - mover];
+						pits[12 - mover] = 0;
 					}
 
 					// determine if there are any stones left on firstPlayer side.
 					for (int n = 0; n < 6; n++) {
-						firstPlayerPitStones += pits[n].getStones();
+						firstPlayerPitStones += pits[n];
 					}
 
 					// determine if there are any stones left on secondPlayer side.
 					for (int n = 7; n < 13; n++) {
-						secondPlayerPitStones += pits[n].getStones();
+						secondPlayerPitStones += pits[n];
 					}
 
 					// if firstPlayer side has no stones, collect all of second
@@ -225,7 +225,7 @@ public class MancalaModel {
 		}
 		
 		//if one of the pits does not equal 0, that means that there are consecutive undos.
-		if((pits[lastPit].getStones() != 0 && p1turn && destinationPit == 6) || (pits[lastPit].getStones() != 0 && p2turn && destinationPit == 13)) {
+		if((pits[lastPit] != 0 && p1turn && destinationPit == 6) || (pits[lastPit] != 0 && p2turn && destinationPit == 13)) {
 			error = true;
 			errorMsg = "Can't have consecutive undos.";
 			changeState();
@@ -237,14 +237,14 @@ public class MancalaModel {
 		//this is undo for firstPlayer if the last stone ends up in firstPlayer's mancala and it's firstPlayer's turn again;
 		if(p1turn && destinationPit == 6 && p1UndoNum > 0) {
 			System.out.println(lastPit + " " + destinationPit);
-			pits[lastPit].setStones(lastPitStones);
+			pits[lastPit] = lastPitStones;
 			int mover = destinationPit;
 			//go backwards and decrement each pit's stones by 1.
 			for(int i = lastPitStones; i > 0; i--) {
 				if(mover == -1) { //if it equals -1, this means it hits the last pit on first player side, change it to 12.
 					mover = 12;
 				}
-				pits[mover].setStones(pits[mover].getStones() - 1);
+				pits[mover] = pits[mover] - 1;
 				mover--;
 			}
 			p1UndoNum--; //decrement undo by 1.
@@ -254,13 +254,13 @@ public class MancalaModel {
 		
 		//same as last statement except for secondPlayer.
 		if(p2turn && destinationPit == 13 && p2UndoNum > 0) {
-			pits[lastPit].setStones(lastPitStones);
+			pits[lastPit] = lastPitStones;
 			int mover = destinationPit;
 			for(int i = lastPitStones; i > 0; i--) {
 				if(mover == 6) {
 					mover = 5;
 				}
-				pits[mover].setStones(pits[mover].getStones() - 1);
+				pits[mover] = pits[mover] - 1;
 				mover--;
 			}
 			p2UndoNum--;
@@ -271,19 +271,19 @@ public class MancalaModel {
 		// this is the undo part for the first player. After he takes a turn,
 		// firstPlayer will be false and this will make firstPlayer true again.
 		if (!p1turn && p1UndoNum > 0) {
-			pits[lastPit].setStones(lastPitStones);//set lastPitStones to original amount of stones;
+			pits[lastPit] = lastPitStones;//set lastPitStones to original amount of stones;
 			int mover = destinationPit; //mover set to destined pit for traversing back.
-			if (pits[mover].getStones() == 1) { // case where the last pit had one stone after a turn 
-				System.out.println(pits[6].getStones());
+			if (pits[mover] == 1) { // case where the last pit had one stone after a turn 
+				System.out.println(pits[6]);
 				System.out.println(lastPitStones);
 				System.out.println(mover);
-				pits[12-mover].setStones(oppOnesPitStones);
-				pits[6].setStones(pits[6].getStones() - oppOnesPitStones);
+				pits[12-mover] = oppOnesPitStones;
+				pits[6] = pits[6] - oppOnesPitStones;
 				for(int i = lastPitStones; i > 0; i--) {
 					if(mover == -1) {
 						mover = 12;
 					}
-					pits[mover].setStones(pits[mover].getStones() - 1);
+					pits[mover] = pits[mover] - 1;
 					mover--;
 				}
 			} else { //traverses the mancala board and decrements each pit by 1 stone until it reaches the pit before the last pit.
@@ -291,7 +291,7 @@ public class MancalaModel {
 					if (mover == -1) {
 						mover = 12;
 					}
-					pits[mover].setStones(pits[mover].getStones() - 1);
+					pits[mover] = pits[mover] - 1;
 					mover--;
 				}
 			}
@@ -302,21 +302,21 @@ public class MancalaModel {
 		
 		//undo function for player two.
 		if(!p2turn && p2UndoNum > 0) {
-			pits[lastPit].setStones(lastPitStones);//set lastPitStones to original amount of stones;
+			pits[lastPit] = lastPitStones;//set lastPitStones to original amount of stones;
 			int mover = destinationPit; //mover set to destined pit for traversing back.
-			if (pits[mover].getStones() == 1) { // case where the last pit had one stone after a turn 
-				pits[12-mover].setStones(oppOnesPitStones);
-				pits[13].setStones(pits[13].getStones() - oppOnesPitStones);
+			if (pits[mover] == 1) { // case where the last pit had one stone after a turn 
+				pits[12-mover] = oppOnesPitStones;
+				pits[13] = pits[13] - oppOnesPitStones;
 				for(int i = lastPitStones; i > 0; i--) {
 					if(mover == -1) {
 						mover = 13;
-						pits[mover].setStones(pits[mover].getStones() - 1);
+						pits[mover] = pits[mover] - 1;
 						continue;
 					}
 					if(mover == 6) {
 						mover = 5;
 					}
-					pits[mover].setStones(pits[mover].getStones() - 1);
+					pits[mover] = pits[mover] - 1;
 					mover--;
 				}
 			} else { //traverses the mancala board and decrements each pit by 1 stone until it reaches the pit before the last pit.
@@ -328,7 +328,7 @@ public class MancalaModel {
 					if(mover == 6) {
 						mover = 5;
 					}
-					pits[mover].setStones(pits[mover].getStones() - 1);
+					pits[mover] = pits[mover] - 1;
 					mover--;
 				}
 			}
@@ -342,7 +342,7 @@ public class MancalaModel {
 	 * Gets the data from the array of pits.
 	 * @return an array of pits.
 	 */
-	public Pit[] getData() {
+	public int[] getData() {
 		return this.pits.clone();
 	}
 	
@@ -367,8 +367,8 @@ public class MancalaModel {
 	 */
 	public void clearBoard() {
 		for(int i = 0; i < 6; i++) {
-			pits[i].setStones(0);
-			pits[i+7].setStones(0);
+			pits[i]= 0;
+			pits[i+7] = 0;
 		}
 		changeState();
 	}
@@ -382,7 +382,7 @@ public class MancalaModel {
 			if(i == 6 || i == 13) {
 				continue;
 			}
-			pits[i].setStones(num);
+			pits[i] = num;
 		}
 		changeState();
 	}
@@ -402,11 +402,11 @@ public class MancalaModel {
 	 */
 	public void determineWinner(boolean side, int stones) {
 		if(side) { //this means that first player has no more pits.
-			pits[13].setStones(pits[13].getStones() + stones); //set second mancala stones to current stones and how many stones were left on second player side.
-			if (pits[6].getStones() > pits[13].getStones()) {
+			pits[13]= pits[13] + stones; //set second mancala stones to current stones and how many stones were left on second player side.
+			if (pits[6] > pits[13]) {
 				System.out.println("First player won");
 				p1win = true;
-			} else if(pits[13].getStones() > pits[6].getStones()){
+			} else if(pits[13] > pits[6]){
 				System.out.println("Second player won");
 				p2win = true;
 			} else {
@@ -414,11 +414,11 @@ public class MancalaModel {
 				tie = true;
 			}
 		} else {
-			pits[6].setStones(pits[6].getStones() + stones);
-			if (pits[6].getStones() > pits[13].getStones()) {
+			pits[6] = pits[6] + stones;
+			if (pits[6] > pits[13]) {
 				System.out.println("First player won");
 				p1win = true;
-			} else if(pits[13].getStones() > pits[6].getStones()){
+			} else if(pits[13] > pits[6]){
 				System.out.println("Second player won");
 				p2win = true;
 			} else {
