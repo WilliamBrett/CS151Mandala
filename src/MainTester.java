@@ -66,11 +66,9 @@ public class MainTester {
 				//making the entire frame
 				JFrame board = new JFrame();
 				final MancalaModel myModel = new MancalaModel();
-				MancalaView view = new MancalaView(myModel, strat);
 				
-				JPanel inputUndo = new JPanel();
-				inputUndo.setLayout(new FlowLayout());
-				inputUndo.setSize(600, 40);
+				//here we are making our view, the main menu button will turn off the board and turn on the style select
+				MancalaView view = new MancalaView(myModel, strat);
 				view.getMainMenu().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						board.setVisible(false);
@@ -78,7 +76,14 @@ public class MainTester {
 					}
 				});
 				view.getMainMenu().setVisible(false);
+				
+				//undo button, attach to board frame
+				JPanel inputUndo = new JPanel();
+				inputUndo.setLayout(new FlowLayout());
+				inputUndo.setSize(600, 40);
 				view.getUndoButton().setVisible(false);
+				
+				//prompts user for number of starting stones, attach to board frame
 				JTextArea prompt = new JTextArea("Please enter number of stones: 3 or 4.");
 				prompt.setEditable(false);
 				JTextField input = new JTextField("", 10);
@@ -101,10 +106,12 @@ public class MainTester {
 					}
 				});
 				
+				//is flow layout, goes left to right
 				inputUndo.add(prompt);
 				inputUndo.add(input);
 				inputUndo.add(view.getUndoButton());
 				inputUndo.add(view.getMainMenu());
+				//board is already in borderlayout
 				board.add(inputUndo, BorderLayout.NORTH);
 				board.add(view, BorderLayout.CENTER);
 
