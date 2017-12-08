@@ -14,9 +14,8 @@ import javax.swing.event.*;
 public class MancalaModel {
 	private ArrayList<ChangeListener> listeners;
 	private Pit[] pits;
-	boolean p1turn, p2turn, p1win, p2win, tie;
+	boolean p1turn, p2turn, p1win, p2win, tie, gameStart, gameOver, error;
 	int lastPit,lastPitStones, destinationPit, oppOnesPitStones, p1UndoNum, p2UndoNum;
-	boolean gameStart, gameOver, error;
 	String errorMsg;
 
 	/**
