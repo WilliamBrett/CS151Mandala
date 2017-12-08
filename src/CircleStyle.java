@@ -17,7 +17,7 @@ import java.awt.geom.Ellipse2D;
  */
 public class CircleStyle implements BoardStyle {
 	public Shape[] pits;
-	Pit[] modelPits;
+	int[] modelPits;
 	boolean turn;
 	final String mancala = "MANCALA"; //used for drawing out MANCALA next to each mancala.
 	@Override
@@ -78,7 +78,7 @@ public class CircleStyle implements BoardStyle {
 			g2.draw(pits[i]);
 			
 			//draws stones in each pit
-			stones = modelPits[i].getStones();
+			stones = modelPits[i];
 			for (int j = 0; j < stones; j++) {
 				//this sets the stones to a random RBG color value
 				g2.setColor(new Color((int)(Math.random()*254),(int)(Math.random()*254),(int)(Math.random()*254)));
@@ -88,7 +88,7 @@ public class CircleStyle implements BoardStyle {
 			}
 			g2.setColor(Color.BLACK);
 			g2.setFont(new Font("TimesRoman", Font.PLAIN, 20));
-			g2.drawString(Integer.toString(modelPits[i].getStones()), (float) pits[i].getBounds2D().getCenterX(),
+			g2.drawString(Integer.toString(modelPits[i]), (float) pits[i].getBounds2D().getCenterX(),
 					(float) pits[i].getBounds2D().getCenterY());
 			g2.drawString("<-- Player B", 425, 60);
 			g2.drawString("--> Player A", 425, 400);
@@ -96,8 +96,8 @@ public class CircleStyle implements BoardStyle {
 			//this is used to show the winner after the game is over. 
 			if (model.gameOver) {
 				g2.drawString("Game Over!", 450, 420);
-				g2.drawString("Player A score: " + modelPits[6].getStones(), 425, 440);
-				g2.drawString("Player B score: " + modelPits[13].getStones(), 425, 460);
+				g2.drawString("Player A score: " + modelPits[6], 425, 440);
+				g2.drawString("Player B score: " + modelPits[13], 425, 460);
 				g2.setFont(new Font("TimesRoman", Font.BOLD, 25));
 				if(model.p1win) {
 					g2.drawString("Player A wins!", 425, 480);
