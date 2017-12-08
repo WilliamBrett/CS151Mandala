@@ -23,7 +23,7 @@ public class SquareStyle implements BoardStyle {
 	final String mancala = "MANCALA";
 
 	@Override
-	public Shape[] drawPits() {
+	public Shape[] drawPits(Graphics2D g2) {
 		pits = new Shape[14];
 		int x = 200;
 		int topY = 100;
