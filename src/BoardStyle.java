@@ -13,7 +13,7 @@ import java.awt.Shape;
  */
 public interface BoardStyle {
 	
-	public Shape[] drawPits();
+	public Shape[] drawPits(Graphics2D g2);
 	
 	public void drawBoard(Graphics2D g2, MancalaModel model);
 }
