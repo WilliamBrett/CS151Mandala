@@ -43,7 +43,8 @@ public class MancalaView extends JPanel implements ChangeListener {
 		this.model = model;
 		this.style = style;
 		this.model.attach(this);
-		pits = style.drawPits();
+		
+		this.repaint();
 		this.setVisible(true);
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -85,7 +86,7 @@ public class MancalaView extends JPanel implements ChangeListener {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g;
-		pits = this.style.drawPits();
+		pits = this.style.drawPits(g2);
 		style.drawBoard(g2, this.model);
 		
 		//if game is over, make undo disappear and mainMenu appear.

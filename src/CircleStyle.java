@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
@@ -22,17 +23,24 @@ public class CircleStyle implements BoardStyle {
 	final String mancala = "MANCALA"; //used for drawing out MANCALA next to each mancala.
 	@Override
 	// this method creates the pits/mancalas and stores it in a shape array.
-	public Shape[] drawPits() {
+	public Shape[] drawPits(Graphics2D g2) {
 		pits = new Shape[14];
 		int x = 200;
 		int topY = 100;
 		int botY = 250;
+		
+		//this draws the bottom pits
 		for (int i = 0; i < 6; i++) {
-			pits[i] = new Ellipse2D.Double(x, botY, 100, 100); // this draws the bottom pits.
-			pits[12 - i] = new Ellipse2D.Double(x, topY, 100, 100); // this draws the top pits.
+		
+			Ellipse2D thePit = new Ellipse2D.Double(x, botY, 100, 100);
+			pits[i] = thePit;
+			pits[12- i] = new Ellipse2D.Double(x, topY, 100, 100); // this draws the top pits.
+
+			 // this draws the bottom pits.
 			x += 100;												
 		}
-
+		
+		
 		pits[6] = new Ellipse2D.Double(800, topY, 150, 250); // firstPlayer mancala
 		pits[13] = new Ellipse2D.Double(50, topY, 150, 250); // secondPlayer  mancala
 
@@ -79,19 +87,55 @@ public class CircleStyle implements BoardStyle {
 			
 			//draws stones in each pit
 			stones = modelPits[i];
-			for (int j = 0; j < stones; j++) {
-				//this sets the stones to a random RBG color value
-				g2.setColor(new Color((int)(Math.random()*254),(int)(Math.random()*254),(int)(Math.random()*254)));
-				//set to fill instead of draw so it draws the circles already filled with a color.
-				g2.fill(new Ellipse2D.Double((float) pits[i].getBounds2D().getMinX() + (Math.random() * 50) + 20,
-						(float) pits[i].getBounds2D().getMinY() + (Math.random() * 50) + 10, 20, 20));
+			//this is bottom pits
+			if(i <6)
+			{
+				for (int j = 0; j < stones; j++) {
+					//this sets the stones to a random RBG color value that is grey ish
+					g2.setColor(new Color((int) (Math.random()* 254) ,(int) (Math.random()* 254), (int) (Math.random()* 254)));
+					//set to fill instead of draw so it draws the circles already filled with a color.
+					g2.fill(new Ellipse2D.Double( (float) pits[i].getBounds2D().getMinX() + (Math.random() * 50) + 20,
+							(float) pits[i].getBounds2D().getMinY() + (Math.random() * 50) + 10, 20, 20));
+				}
 			}
+			//this is mancala A
+			else if(i ==6)
+			{
+				for (int j = 0; j < stones; j++) {
+					//this sets the stones to a random RBG color value
+					int colorValue = (int) (Math.random() * 60 + 105);
+					g2.setColor(new Color(colorValue, colorValue, colorValue));
+					//set to fill instead of draw so it draws the circles already filled with a color.
+					g2.fill(new Ellipse2D.Double( (float) pits[i].getBounds2D().getMinX() + (Math.random() * 50) + 20,
+							(float) pits[i].getBounds2D().getMinY() + (Math.random() * 50) + 10, 20, 20));
+				}
+			}
+			//this is mancala B
+			else if(i < 13){
+				for (int j = 0; j < stones; j++) {
+					//this sets the stones to a random RBG color value
+					g2.setColor(new Color((int) (Math.random()* 254),(int) (Math.random()* 254), (int) (Math.random()* 254)));
+					//set to fill instead of draw so it draws the circles already filled with a color.
+					g2.fill(new Ellipse2D.Double( (float) pits[i].getBounds2D().getMinX() + (Math.random() * 50) + 20,
+							(float) pits[i].getBounds2D().getMinY() + (Math.random() * 50) + 10, 20, 20));
+				}
+			}
+			else if(i == 13){
+				for (int j = 0; j < stones; j++) {
+					//this sets the stones to a random RBG color value
+					g2.setColor(new Color((int) (Math.random()* 20),(int) (Math.random()* 20), (int) (Math.random()* 20)));
+					//set to fill instead of draw so it draws the circles already filled with a color.
+					g2.fill(new Ellipse2D.Double( (float) pits[i].getBounds2D().getMinX() + (Math.random() * 50) + 20,
+							(float) pits[i].getBounds2D().getMinY() + (Math.random() * 50) + 10, 20, 20));
+				}
+			}
+			
 			g2.setColor(Color.BLACK);
 			g2.setFont(new Font("TimesRoman", Font.PLAIN, 20));
 			g2.drawString(Integer.toString(modelPits[i]), (float) pits[i].getBounds2D().getCenterX(),
 					(float) pits[i].getBounds2D().getCenterY());
-			g2.drawString("<-- Player B", 425, 60);
-			g2.drawString("--> Player A", 425, 400);
+			//g2.drawString("<-- Player B", 425, 60);
+			//g2.drawString("--> Player A", 425, 400);
 			
 			//this is used to show the winner after the game is over. 
 			if (model.gameOver) {
@@ -111,15 +155,19 @@ public class CircleStyle implements BoardStyle {
 			//only display turns when the game isn't over yet.
 			if (!model.gameOver) {
 				if (turn) {
-					status = "Player A's Turn";
-					g2.drawString(status, 800, 20);
+					status = "[Player A's Turn]";
+					g2.setColor(Color.RED);
+					g2.setFont(new Font("TimesRoman", Font.BOLD, 30));
+					g2.drawString(status, 780, 400);
 				} else {
-					status = "Player B's Turn";
-					g2.drawString(status, 800, 20);
+					status = "[Player B's Turn]";
+					g2.setColor(Color.GREEN);
+					g2.setFont(new Font("TimesRoman", Font.BOLD, 30));
+					g2.drawString(status, 50, 400);
 				}
 			}
 			if(model.error) {
-				g2.drawString("ERROR: " + model.getErrorMessage(), 230,40);
+				g2.drawString("ERROR: " + model.getErrorMessage(), 350,450);
 			}
 		}
 	}
