@@ -51,8 +51,8 @@ public class SquareStyle implements BoardStyle {
 		int y = 150;
 		g2.setColor(Color.BLACK);
 		g2.setFont(new Font("TimesRoman", Font.BOLD, 20));
-		g2.drawString("Undos: " + model.secondPlayerUndos, 75, 80);
-		g2.drawString("Undos: " + model.firstPlayerUndos,875, 80);
+		g2.drawString("Undos: " + model.p2UndoNum, 75, 80);
+		g2.drawString("Undos: " + model.p1UndoNum,875, 80);
 		//this for loop is used for drawing MANCALA next to the mancala pits.
 		for(int i = 0; i < mancala.length(); i++) {
 			g2.drawString(mancala.substring(i, i+1), 20, y);
@@ -97,14 +97,14 @@ public class SquareStyle implements BoardStyle {
 			g2.drawString("--> Player A", 425, 400);
 
 			//this is used to show the winner after the game is over. 
-			if (model.gameIsOver) {
+			if (model.gameOver) {
 				g2.drawString("Game Over!", 450, 420);
 				g2.drawString("Player A score: " + modelPits[6].getStones(), 425, 440);
 				g2.drawString("Player B score: " + modelPits[13].getStones(), 425, 460);
 				g2.setFont(new Font("TimesRoman", Font.BOLD, 25));
-				if(model.firstPlayerIsWinner) {
+				if(model.p1win) {
 					g2.drawString("Player A wins!", 425, 480);
-				} else if(model.secondPlayerIsWinner) {
+				} else if(model.p2win) {
 					g2.drawString("Player B wins!", 425, 480);
 				} else {
 					g2.drawString("Tied game!", 425, 480);
@@ -112,7 +112,7 @@ public class SquareStyle implements BoardStyle {
 			}
 
 			//only display turns when the game isn't over yet.
-			if (!model.gameIsOver) {
+			if (!model.gameOver) {
 				if (turn) {
 					status = "Player A's Turn";
 					g2.drawString(status, 800, 20);

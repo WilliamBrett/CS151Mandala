@@ -28,18 +28,13 @@ public class CircleStyle implements BoardStyle {
 		int topY = 100;
 		int botY = 250;
 		for (int i = 0; i < 6; i++) {
-			pits[i] = new Ellipse2D.Double(x, botY, 100, 100); // this draws the
-																// bottom pits.
-			pits[12 - i] = new Ellipse2D.Double(x, topY, 100, 100); // this
-																	// draws the
-																	// top pits.
-			x += 100;
+			pits[i] = new Ellipse2D.Double(x, botY, 100, 100); // this draws the bottom pits.
+			pits[12 - i] = new Ellipse2D.Double(x, topY, 100, 100); // this draws the top pits.
+			x += 100;												
 		}
 
-		pits[6] = new Ellipse2D.Double(800, topY, 150, 250); // firstPlayer
-																// mancala
-		pits[13] = new Ellipse2D.Double(50, topY, 150, 250); // secondPlayer
-																// mancala
+		pits[6] = new Ellipse2D.Double(800, topY, 150, 250); // firstPlayer mancala
+		pits[13] = new Ellipse2D.Double(50, topY, 150, 250); // secondPlayer  mancala
 
 		return pits;
 	}
@@ -57,8 +52,8 @@ public class CircleStyle implements BoardStyle {
 		int y = 150;
 		g2.setColor(Color.BLACK);
 		g2.setFont(new Font("TimesRoman", Font.BOLD, 20));
-		g2.drawString("Undos: " + model.secondPlayerUndos, 100, 80);
-		g2.drawString("Undos: " + model.firstPlayerUndos, 850, 80);
+		g2.drawString("Undos: " + model.p2UndoNum, 100, 80);
+		g2.drawString("Undos: " + model.p1UndoNum, 850, 80);
 		//this for loop is used for drawing MANCALA next to the mancala pits.
 		for(int i = 0; i < mancala.length(); i++) {
 			g2.drawString(mancala.substring(i, i+1), 20, y);
@@ -85,7 +80,8 @@ public class CircleStyle implements BoardStyle {
 			//draws stones in each pit
 			stones = modelPits[i].getStones();
 			for (int j = 0; j < stones; j++) {
-				g2.setColor(Color.RED);
+				//this sets the stones to a random RBG color value
+				g2.setColor(new Color((int)(Math.random()*254),(int)(Math.random()*254),(int)(Math.random()*254)));
 				//set to fill instead of draw so it draws the circles already filled with a color.
 				g2.fill(new Ellipse2D.Double((float) pits[i].getBounds2D().getMinX() + (Math.random() * 50) + 20,
 						(float) pits[i].getBounds2D().getMinY() + (Math.random() * 50) + 10, 20, 20));
@@ -98,14 +94,14 @@ public class CircleStyle implements BoardStyle {
 			g2.drawString("--> Player A", 425, 400);
 			
 			//this is used to show the winner after the game is over. 
-			if (model.gameIsOver) {
+			if (model.gameOver) {
 				g2.drawString("Game Over!", 450, 420);
 				g2.drawString("Player A score: " + modelPits[6].getStones(), 425, 440);
 				g2.drawString("Player B score: " + modelPits[13].getStones(), 425, 460);
 				g2.setFont(new Font("TimesRoman", Font.BOLD, 25));
-				if(model.firstPlayerIsWinner) {
+				if(model.p1win) {
 					g2.drawString("Player A wins!", 425, 480);
-				} else if(model.secondPlayerIsWinner) {
+				} else if(model.p2win) {
 					g2.drawString("Player B wins!", 425, 480);
 				} else {
 					g2.drawString("Tied game!", 425, 480);
@@ -113,7 +109,7 @@ public class CircleStyle implements BoardStyle {
 			}
 			
 			//only display turns when the game isn't over yet.
-			if (!model.gameIsOver) {
+			if (!model.gameOver) {
 				if (turn) {
 					status = "Player A's Turn";
 					g2.drawString(status, 800, 20);

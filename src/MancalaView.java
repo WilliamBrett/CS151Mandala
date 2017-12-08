@@ -89,7 +89,7 @@ public class MancalaView extends JPanel implements ChangeListener {
 		style.drawBoard(g2, this.model);
 		
 		//if game is over, make undo disappear and mainMenu appear.
-		if(model.gameIsOver) {
+		if(model.gameOver) {
 			undo.setVisible(false);
 			mainMenu.setVisible(true);
 		}
