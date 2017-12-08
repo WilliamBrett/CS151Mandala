@@ -33,6 +33,7 @@ public class MainTester {
 		
 		//thePanel is put into styleSelectFrame so that we can have our two buttons next to each other neatly
 		JPanel thePanel = new JPanel();
+		//the buttons creates the mancala board
 		circleView.addActionListener(chooseView(new CircleStyle()));
 		squareView.addActionListener(chooseView(new SquareStyle()));
 		thePanel.setLayout(new GridLayout(1,2));
@@ -54,9 +55,15 @@ public class MainTester {
 	 * @return an actionlistener that draws the board with the given strategy.
 	 */
 	public static ActionListener chooseView(BoardStyle strat) {
+		//its like making an anon class but inside 
+		//after you press the button, it makes the mancala board here along with model and view
+		
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
+				//getting rid of the previous frame here, no longer need to see style selection
 				styleSelectFrame.setVisible(false); 
+				
+				//making the entire frame
 				JFrame board = new JFrame();
 				final MancalaModel myModel = new MancalaModel();
 				MancalaView view = new MancalaView(myModel, strat);
