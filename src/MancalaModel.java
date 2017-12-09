@@ -52,7 +52,7 @@ public class MancalaModel
 		if(i == 6 || i == 13) 
 		{
 			error = true;
-			errorMsg = "Please choose pits instead of mancala";
+			errorMsg = "Error: You clicked mancala! Choose pit with stones";
 			changeState();
 			getErrorMessage();
 			return;
@@ -62,7 +62,7 @@ public class MancalaModel
 		if(pits[i] == 0) 
 		{
 			error = true;
-			errorMsg = "It's empty pit, please choose another pit with stones";
+			errorMsg = "Error: You clicked empty pit! Choose pit with stones";
 			changeState();
 			getErrorMessage();
 			return;
@@ -103,6 +103,9 @@ public class MancalaModel
 			// Case #1, when the last traversing stone ends up A's Mancala, free turn
 			if (traverseI == 6) 
 			{
+				error = true;
+				errorMsg = "Free Turn!";
+				getErrorMessage();
 				p1turn = true;
 				p2turn = false;
 			} 
@@ -178,6 +181,9 @@ public class MancalaModel
 				// case #1
 				if (clickedPit == 13) 
 				{
+					error = true;
+					errorMsg = "Free Turn!";
+					getErrorMessage();
 					p1turn = false;
 					p2turn = true;
 				} 
@@ -251,7 +257,7 @@ public class MancalaModel
 		if(!gameStart) 
 		{
 			error = true;
-			errorMsg = "Undo is Impossible Before the Move";
+			errorMsg = "Error: Undo is Impossible Before the Move";
 			changeState();
 			getErrorMessage();
 			return;
@@ -270,7 +276,7 @@ public class MancalaModel
 		if((pits[clickedPit] != 0 && p1turn && lastTraverseI == 6) || (pits[clickedPit] != 0 && p2turn && lastTraverseI == 13)) 
 		{
 			error = true;
-			errorMsg = "Serial Undo is Not Possible";
+			errorMsg = "Error: Serial Undo is Not Possible";
 			changeState();
 			getErrorMessage();
 			return;

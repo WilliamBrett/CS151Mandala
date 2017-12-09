@@ -14,7 +14,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * CircleStyle, a strategy pattern
  */
-public class CircleStyle implements BoardStyle 
+public class CircleStrategy implements Strategy 
 {
 	public Shape[] pits;
 	int[] modelPits;
@@ -203,7 +203,7 @@ public class CircleStyle implements BoardStyle
 			}
 			g2.setColor(Color.BLACK);
 			if(model.error) {
-				g2.drawString("ERROR: " + model.getErrorMessage(), 70,440);
+				g2.drawString(model.getErrorMessage(), 70,440);
 			}
 		}
 	}
