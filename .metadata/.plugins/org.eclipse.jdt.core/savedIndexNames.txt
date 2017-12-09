@@ -1,0 +1,1 @@
+INDEX VERSION 1.130+C:\Users\willi\Desktop\CS151Mandala\.metadata\.plugins\org.eclipse.jdt.core
