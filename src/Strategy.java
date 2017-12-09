@@ -8,9 +8,9 @@ import java.awt.Shape;
  */
 
 /**
- * Interface forstrategy pattern. 
+ * Interface for strategy pattern. 
  */
-public interface BoardStyle {
+public interface Strategy {
 	
 	public Shape[] drawPits(Graphics2D g2);
 	
