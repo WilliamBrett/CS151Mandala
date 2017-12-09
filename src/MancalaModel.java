@@ -1,4 +1,6 @@
+
 import java.util.ArrayList;
+
 import javax.swing.event.*;
 /**
  * Mancala Project
@@ -9,10 +11,9 @@ import javax.swing.event.*;
 /**
  * MancalaModel holds all necessary data and data structure to run Mancala game
  */
-public class MancalaModel 
-{
+public class MancalaModel {
 	private ArrayList<ChangeListener> listeners;
-	private int pits[], prevpits[];
+	private int pits[], prevpits[] ;
 	boolean p1turn, p2turn, p1win, p2win, tie, gameStart, gameOver, error;
 	int clickedPit,clickedPitStones, lastTraverseI, oppositeStones, p1UndoNum, p2UndoNum;
 	String errorMsg;
@@ -68,25 +69,21 @@ public class MancalaModel
 		clickedPit = i; // last clicked pit index;
 		clickedPitStones = pits[i]; // # of stones in the pit.
 		// 
-		int p1Stones = 0; 
-		int p2Stones = 0;
+		int firstPlayerPitStones = 0; 
+		int secondPlayerPitStones = 0;
 		// for player A turn
 		if (p1turn && i >= 0 && i <= 5) 
 		{   
 			gameStart = true;
-			// empty the clicked pit
-			pits[i] = 0;
-			
-			// collect all stones in clicked pits
-			int collectedStones = pits[i];
-			// traverseI will traverse next indexes(pits) from the clicked pit.
-			int traverseI = i + 1;
-			
-			
 			
 			//resetting player B's undo number
 			p2UndoNum = 3;
-			
+			// collect all stones in clicked pits
+			int collectedStones = pits[i];
+			// empty the clicked pit
+			pits[i] = 0; 
+			// traverseI will traverse next indexes(pits) from the clicked pit.
+			int traverseI = i + 1;
 			// distribute collected Stones to next pits(indexes) from the clicked pit
 			for (int x = 0; x < collectedStones; x++) 
 			{
@@ -96,11 +93,10 @@ public class MancalaModel
 				pits[traverseI] = pits[traverseI] + 1;
 				traverseI++;
 			}
-			
-			// save current traverseI at lastTraverseI for undo
+			// lastTraverseI is for undo
 			lastTraverseI = traverseI = traverseI - 1;
-			
-			// playerA takes opposite side stones when traverseI lands on pit with 1 stone
+			// when the traverseI is landed on the playerA's side with only 1 stone left
+			// this case we can take opposite stones to playerA's mancala
 			if (traverseI >= 0 && traverseI < 6 && pits[traverseI] == 1) 
 			{
 				// saving opposite side pit's stones
@@ -108,36 +104,44 @@ public class MancalaModel
 				pits[6] = pits[6] + pits[12 - traverseI];
 				pits[12 - traverseI] = 0;
 			}
-			
-			// collect stones and each player's pits
-			p1Stones = collectP1Stones();
-			p2Stones = collectP2Stones();
-			
-			// game ends when either side player's pits are empty
-			if (p1Stones == 0) 
-				gameEnded(true, p2Stones);
-			if (p2Stones == 0) 
-				gameEnded(false, p1Stones);
-			
-			// free turn case, if the traverseI ends at player A's manacala
-			if (traverseI == 6) 
-			{
+
+			// determine if there are any stones left on firstPlayer side.
+			for (int n = 0; n < 6; n++) {
+				firstPlayerPitStones += pits[n];
+			}
+
+			// determine if there are any stones left on secondPlayer side.
+			for (int n = 7; n < 13; n++) {
+				secondPlayerPitStones += pits[n];
+			}
+
+			// if firstPlayer side has no stones, collect all of second
+			// player stones and give to second player then determine whos
+			// the winner.
+			if (firstPlayerPitStones == 0) {
+				determineWinner(true, secondPlayerPitStones);
+			}
+
+			// if secondPlayer side has no stones, collect all of second
+			// player stones and give to first player then determine whos
+			// the winner.
+			if (secondPlayerPitStones == 0) {
+				determineWinner(false, firstPlayerPitStones);
+			}
+			// if the last pit is the secondPlayer's mancala, it will still
+			// be firstPlayer's turn. else, change turns.
+			if (traverseI == 6) {
 				p1turn = true;
 				p2turn = false;
-			} 
-			// if not free turn case then it becomes B's turn
-			else 
-			{
+			} else {
 				p1turn = false;
 				p2turn = true;
 			}
-			// update views
+			// change listeners after.
 			changeState();
 		} 
-		else 
-		{
-			if (p2turn && i >= 6 && i <= 12) 
-			{
+		else {
+			if (p2turn && i >= 6 && i <= 12) {
 				p1UndoNum = 3;
 				int traverseI = i + 1;
 				int collectedStones = pits[i];
@@ -171,27 +175,27 @@ public class MancalaModel
 
 				// determine if there are any stones left on firstPlayer side.
 				for (int n = 0; n < 6; n++) {
-					p1Stones += pits[n];
+					firstPlayerPitStones += pits[n];
 				}
 
 				// determine if there are any stones left on secondPlayer side.
 				for (int n = 7; n < 13; n++) {
-					p2Stones += pits[n];
+					secondPlayerPitStones += pits[n];
 				}
 
 				// if firstPlayer side has no stones, collect all of second
 				// player stones and give to second player then determine whos
 				// the winner.
-				if (p1Stones == 0) {
-					gameEnded(true, p2Stones);
+				if (firstPlayerPitStones == 0) {
+					determineWinner(true, secondPlayerPitStones);
 					return;
 				}
 
 				// if secondPlayer side has no stones, collect all of second
 				// player stones and give to first player then determine whos
 				// the winner.
-				if (p2Stones == 0) {
-					gameEnded(false, p1Stones);
+				if (secondPlayerPitStones == 0) {
+					determineWinner(false, firstPlayerPitStones);
 					return;
 				}
 
@@ -208,22 +212,6 @@ public class MancalaModel
 				changeState();
 			}
 		}
-	}
-	public int collectP1Stones()
-	{
-		int result = 0;
-		for (int i = 0; i < 6; i++) {
-			result = result + pits[i];
-		}
-		return result;
-	}
-	public int collectP2Stones()
-	{
-		int result = 0;
-		for (int i = 7; i < 13; i++) {
-			result = result + pits[i];
-		}
-		return result;
 	}
 
 	/**
@@ -362,7 +350,6 @@ public class MancalaModel
 		}
 	}
 	
-	
 	/**
 	 * Gets the data from the array of pits.
 	 * @return an array of pits.
@@ -425,7 +412,7 @@ public class MancalaModel
 	 * determine the winner
 	 * @param side boolean to determine which side has 0 pits. true for firstplayer false for secondplayer
 	 */
-	public void gameEnded(boolean side, int stones) {
+	public void determineWinner(boolean side, int stones) {
 		if(side) { //this means that first player has no more pits.
 			pits[13]= pits[13] + stones; //set second mancala stones to current stones and how many stones were left on second player side.
 			if (pits[6] > pits[13]) {
