@@ -2,14 +2,13 @@
 import java.awt.Graphics2D;
 import java.awt.Shape;
 /**
- * CS151 Project
- * @author Kenny Huynh, Vincent Hang, Christopher Nguyen
- * @copyright 2017
+ * Mancala Project
+ * @author William Brett, Jeffrey Huynh, Jeong Ook Moon
  * @version 1.0
  */
 
 /**
- * Interface to draw the pits using the strategy pattern. 
+ * Interface forstrategy pattern. 
  */
 public interface BoardStyle {
 	

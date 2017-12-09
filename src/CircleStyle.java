@@ -1,43 +1,40 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * CS151 Project
- * @author Kenny Huynh, Vincent Hang, Christopher Nguyen
- * @copyright 2017
+ * Mancala Project
+ * @author William Brett, Jeffrey Huynh, Jeong Ook Moon
  * @version 1.0
  */
 
 /**
- * Represents a style with circle pits, a concrete strategy of the strategy
- * pattern.
+ * CircleStyle, a strategy pattern
  */
-public class CircleStyle implements BoardStyle {
+public class CircleStyle implements BoardStyle 
+{
 	public Shape[] pits;
 	int[] modelPits;
 	boolean turn;
-	final String mancala = "MANCALA"; //used for drawing out MANCALA next to each mancala.
+	final String mancala = "MANCALA";
+	
 	@Override
-	// this method creates the pits/mancalas and stores it in a shape array.
 	public Shape[] drawPits(Graphics2D g2) {
 		pits = new Shape[14];
 		int x = 200;
 		int topY = 100;
 		int botY = 250;
 		
-		//this draws the bottom pits
-		for (int i = 0; i < 6; i++) {
+		
+		for (int i = 0; i < 6; i++) 
+		{
 		
 			Ellipse2D thePit = new Ellipse2D.Double(x, botY, 100, 100);
 			pits[i] = thePit;
-			pits[12- i] = new Ellipse2D.Double(x, topY, 100, 100); // this draws the top pits.
-
-			 // this draws the bottom pits.
+			pits[12- i] = new Ellipse2D.Double(x, topY, 100, 100);
 			x += 100;												
 		}
 		
@@ -65,12 +62,12 @@ public class CircleStyle implements BoardStyle {
 		g2.fill(new Rectangle2D.Double(40, 90, 920, 268));
 		
 		g2.setColor(Color.BLACK);
-		g2.setFont(new Font("TimesRoman", Font.BOLD, 20));
-		g2.drawString("Undos: " + model.p2UndoNum, 100, 80);
+		g2.setFont(new Font("Courier New", Font.BOLD, 20));
+		g2.drawString("Undos(" + model.p2UndoNum +")", 100, 80);
 		//setting color for A side
 		g2.setColor(new Color(50, 100,100));
-		g2.drawString("Undos: " + model.p1UndoNum, 850, 80);
-		g2.setColor(Color.BLACK);
+		g2.drawString("Undos(" + model.p1UndoNum +")", 850, 80);
+	
 		//this for loop is used for drawing MANCALA next to the mancala pits.
 		for(int i = 0; i < mancala.length(); i++) {
 			g2.drawString(mancala.substring(i, i+1), 20, y);
@@ -80,6 +77,7 @@ public class CircleStyle implements BoardStyle {
 			g2.setColor(Color.black);
 			y += 20;
 		}
+		g2.setColor(Color.BLACK);
 		g2.drawString("B", 20, y + 30);
 		
 		g2.setColor(new Color(50, 100,100));
@@ -156,10 +154,10 @@ public class CircleStyle implements BoardStyle {
 				}
 			}
 			
-			g2.setColor(Color.BLACK);
-			g2.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+			g2.setColor(Color.gray);
+			g2.setFont(new Font("Courier New", Font.BOLD, 15));
 			g2.drawString(Integer.toString(modelPits[i]), (float) pits[i].getBounds2D().getCenterX(),
-					(float) pits[i].getBounds2D().getCenterY());
+					(float) pits[i].getBounds2D().getMaxY());
 			//g2.drawString("<-- Player B", 425, 60);
 			//g2.drawString("--> Player A", 425, 400);
 			
@@ -168,7 +166,7 @@ public class CircleStyle implements BoardStyle {
 				g2.drawString("Game Over!", 450, 420);
 				g2.drawString("Player A score: " + modelPits[6], 425, 440);
 				g2.drawString("Player B score: " + modelPits[13], 425, 460);
-				g2.setFont(new Font("TimesRoman", Font.BOLD, 25));
+				g2.setFont(new Font("Courier New", Font.BOLD, 25));
 				if(model.p1win) {
 					g2.drawString("Player A wins!", 425, 480);
 				} else if(model.p2win) {
@@ -182,13 +180,13 @@ public class CircleStyle implements BoardStyle {
 			if (!model.gameOver) {
 				if (turn) {
 					status = "[Player A's Turn]";
-					g2.setColor(Color.RED);
-					g2.setFont(new Font("TimesRoman", Font.BOLD, 30));
+					g2.setColor(new Color(204, 0, 0));
+					g2.setFont(new Font("Courier New", Font.BOLD, 25));
 					g2.drawString(status, 780, 400);
 				} else {
 					status = "[Player B's Turn]";
-					g2.setColor(Color.GREEN);
-					g2.setFont(new Font("TimesRoman", Font.BOLD, 30));
+					g2.setColor(new Color(0, 153, 0));
+					g2.setFont(new Font("Courier New", Font.BOLD, 25));
 					g2.drawString(status, 50, 400);
 				}
 			}

@@ -1,13 +1,10 @@
-
-
+import java.awt.Color;
 import java.awt.Graphics;
-
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -17,14 +14,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 /**
- * CS151 Project
- * @author Kenny Huynh. Vincent Hang, Christopher Nguyen
- * @copyright 2017
+ * Mancala Project
+ * @author William Brett, Jeffrey Huynh, Jeong Ook Moon
  * @version 1.0
  */
 
 /**
- * Represents the GUI portion or context of the Strategy pattern. This is where the model will interact with the controller and update the view.
+ * View
  */
 public class MancalaView extends JPanel implements ChangeListener {
 	
@@ -36,8 +32,8 @@ public class MancalaView extends JPanel implements ChangeListener {
 	
 	/**
 	 * Intializes a View object.
-	 * @param model the model to be used
-	 * @param style the strategy/style to be used for this view.
+	 * @param model the model
+	 * @param style strategy pattern, can take any BoardStyle
 	 */
 	public MancalaView(MancalaModel model, BoardStyle style) {
 		this.model = model;
@@ -48,16 +44,17 @@ public class MancalaView extends JPanel implements ChangeListener {
 		this.setVisible(true);
 		this.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				for(int i = 0; i < pits.length; i++) { //check to see if the point is clicked within the pit.
+				for(int i = 0; i < pits.length; i++) {
 					if(pits[i].contains(e.getPoint())) {
-						model.moveBoard(i);
+						model.play(i);
 					}
 				}
 			}
 		});
 		
-		//put undo/mainMenu in View class so that it updates automatically due to the state change method.
+		// undo controller
 		undo = new JButton("Undo");
+		undo.setBackground(Color.WHITE);
 		mainMenu = new JButton("Main Menu");
 		undo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -67,16 +64,16 @@ public class MancalaView extends JPanel implements ChangeListener {
 	}
 	
 	/**
-	 * Gets the undo JButton
-	 * @return the undo JButton
+	 * getUndoButton
+	 * @return undo
 	 */
 	public JButton getUndoButton() {
 		return undo;
 	}
 	
 	/**
-	 * Gets the main menu JButton
-	 * @return the main menu JButton
+	 * getMainMenu
+	 * @return mainMenu
 	 */
 	public JButton getMainMenu() {
 		return mainMenu;
@@ -89,7 +86,6 @@ public class MancalaView extends JPanel implements ChangeListener {
 		pits = this.style.drawPits(g2);
 		style.drawBoard(g2, this.model);
 		
-		//if game is over, make undo disappear and mainMenu appear.
 		if(model.gameOver) {
 			undo.setVisible(false);
 			mainMenu.setVisible(true);
@@ -97,7 +93,6 @@ public class MancalaView extends JPanel implements ChangeListener {
 	}
 	
 	@Override
-	//this will update the view whenever the board's state is changed.
 	public void stateChanged(ChangeEvent arg0) {
 		this.repaint();
 		
