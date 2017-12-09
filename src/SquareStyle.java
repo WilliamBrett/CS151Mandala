@@ -6,9 +6,8 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 /**
- * CS151 Project
- * @author Kenny Huynh, Vincent Hang, Christopher Nguyen
- * @copyright 2017
+ * Mancala Project
+ * @author William Brett, Jeffrey Huynh, Jeong Ook Moon
  * @version 1.0
  */
 
@@ -51,8 +50,8 @@ public class SquareStyle implements BoardStyle {
 		int y = 150;
 		g2.setColor(Color.BLACK);
 		g2.setFont(new Font("TimesRoman", Font.BOLD, 20));
-		g2.drawString("Undos: " + model.p2UndoNum, 75, 80);
-		g2.drawString("Undos: " + model.p1UndoNum,875, 80);
+		g2.drawString("Undos(" + model.p2UndoNum +")", 75, 80);
+		g2.drawString("Undos(" + model.p1UndoNum +")",875, 80);
 		//this for loop is used for drawing MANCALA next to the mancala pits. <--changeme!
 		for(int i = 0; i < mancala.length(); i++) {
 			g2.drawString(mancala.substring(i, i+1), 20, y);

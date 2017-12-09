@@ -1,18 +1,13 @@
-
-
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 /**
- * CS151 Project
- * @author Kenny Huynh, Vincent Hang, Christopher Nguyen
- * @copyright 2017
+ * Mancala Project
+ * @author William Brett, Jeffrey Huynh, Jeong Ook Moon
  * @version 1.0
  */
 
 /**
- * Adapter class that implements all the MouseListener methods.
- * Will only use mousePressed.
+ * it's for different types of mouselistener
  */
 public class MouseAdapter implements MouseListener {
 

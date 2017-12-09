@@ -42,7 +42,7 @@ public class MancalaModel
 	 * whenever pit is clicked this method moves stones and makes game forward according to each situation
 	 * @param i = index of clicked pit
 	 */
-	public void moveBoard(int i) 
+	public void play(int i) 
 	{
 		// checks if the game is over
 		if(p1win || p2win || tie) 

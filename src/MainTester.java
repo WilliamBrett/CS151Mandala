@@ -3,68 +3,60 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 /**
- * CS151 Project
- * @author Kenny Huynh, Vincent Hang, Christopher Nguyen
- * @copyright 2017
+ * Mancala Project
+ * @author William Brett, Jeffrey Huynh, Jeong Ook Moon
  * @version 1.0
  */
 
 /**
- * Represents the main method to run the program.
+ * Tester
  */
 public class MainTester {
-		static public JFrame styleSelectFrame;
+		static public JFrame mainFrame;
 		static public MancalaModel model;
 		
 	/**
-	 * Main method to run the program.
-	 * @param args Arguments inputted.
+	 * Main
+	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		model = new MancalaModel();
-		
-		//here is our opening style select frame
-		styleSelectFrame = new JFrame();
-		styleSelectFrame.setSize(400, 100);
-		//this sets the overall frame to list top down
-		JTextArea openingText = new JTextArea("Welcome to Mancala. Please choose your style.");
+		mainFrame = new JFrame("Mancala");
+		mainFrame.setSize(1200, 100);
 		JButton circleView =  new JButton("Circle");
+		circleView.setBackground(Color.WHITE);
 		JButton squareView = new JButton("Square");
-		
-		//thePanel is put into styleSelectFrame so that we can have our two buttons next to each other neatly
+		squareView.setBackground(Color.WHITE);
+				
 		JPanel thePanel = new JPanel();
-		//the buttons creates the mancala board
 		circleView.addActionListener(chooseView(new CircleStyle()));
 		squareView.addActionListener(chooseView(new SquareStyle()));
 		thePanel.setLayout(new GridLayout(1,2));
 		thePanel.add(circleView);
 		thePanel.add(squareView);
-		
-		//the opening text will be at the top and the two buttons will be at the bottom
-		styleSelectFrame.setLayout(new BoxLayout(styleSelectFrame.getContentPane(),BoxLayout.Y_AXIS));
-		styleSelectFrame.add(openingText);
-		styleSelectFrame.add(thePanel);
-		styleSelectFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		styleSelectFrame.setVisible(true);
+				
+		mainFrame.setLayout(new BoxLayout(mainFrame.getContentPane(),BoxLayout.Y_AXIS));
+		mainFrame.add(thePanel);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setVisible(true);
 		
 	}
 	
 	/**
-	 * Method to determine which style the user wants.
-	 * @param strat the style or strategy to be used
-	 * @return an actionlistener that draws the board with the given strategy.
+	 * 
+	 * @param 
+	 * @return 
 	 */
 	public static ActionListener chooseView(BoardStyle strat) {
-		//its like making an anon class but inside 
-		//after you press the button, it makes the mancala board here along with model and view
-		
+			
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				//getting rid of the previous frame here, no longer need to see style selection
-				styleSelectFrame.setVisible(false); 
+				mainFrame.setVisible(false); 
 				
 				//making the entire frame
-				JFrame board = new JFrame();
+				JFrame board = new JFrame("Mancala");
 				final MancalaModel myModel = new MancalaModel();
 				
 				//here we are making our view, the main menu button will turn off the board and turn on the style select
@@ -72,7 +64,7 @@ public class MainTester {
 				view.getMainMenu().addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						board.setVisible(false);
-						styleSelectFrame.setVisible(true);
+						mainFrame.setVisible(true);
 					}
 				});
 				view.getMainMenu().setVisible(false);
@@ -82,11 +74,12 @@ public class MainTester {
 				inputUndo.setLayout(new FlowLayout());
 				inputUndo.setSize(600, 40);
 				view.getUndoButton().setVisible(false);
-				
+				view.setVisible(false);
 				//prompts user for number of starting stones, attach to board frame
-				JTextArea prompt = new JTextArea("Please enter number of stones: 3 or 4.");
-				prompt.setEditable(false);
-				JTextField input = new JTextField("", 10);
+				JButton prompt = new JButton("Choose # of stones: 3 or 4");
+				prompt.setEnabled(false);
+				prompt.setBackground(Color.WHITE);
+				JTextField input = new JTextField("", 1);
 				input.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						String text = input.getText().trim();
@@ -97,11 +90,12 @@ public class MainTester {
 								prompt.setVisible(false);
 								input.setVisible(false);
 								view.getUndoButton().setVisible(true);
+								view.setVisible(true);
 							} else {
 								throw new Exception();
 							}
 						} catch (Exception error) {
-							prompt.setText("Error. Either not a number or number is not 3 or 4.");
+							prompt.setText("Error. input 3 or 4");
 						}
 					}
 				});
@@ -116,7 +110,7 @@ public class MainTester {
 				board.add(view, BorderLayout.CENTER);
 
 				board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				board.setSize(1050, 600);
+				board.setSize(1110, 500);
 				board.setVisible(true);
 			}
 		};
