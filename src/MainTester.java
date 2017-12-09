@@ -67,12 +67,12 @@ public class MainTester {
 						mainFrame.setVisible(true);
 					}
 				});
-				view.getMainMenu().setVisible(false);
+				view.getMainMenu().setVisible(true);
 				
 				//undo button, attach to board frame
 				JPanel inputUndo = new JPanel();
-				inputUndo.setLayout(new FlowLayout());
-				inputUndo.setSize(600, 40);
+				inputUndo.setLayout(new GridLayout(1,2));
+				inputUndo.setSize(600, 10);
 				view.getUndoButton().setVisible(false);
 				view.setVisible(false);
 				//prompts user for number of starting stones, attach to board frame
@@ -99,18 +99,21 @@ public class MainTester {
 						}
 					}
 				});
+				JPanel undoPanel = new JPanel();
+				undoPanel.setLayout(new FlowLayout());
 				
 				//is flow layout, goes left to right
 				inputUndo.add(prompt);
 				inputUndo.add(input);
-				inputUndo.add(view.getUndoButton());
-				inputUndo.add(view.getMainMenu());
+				undoPanel.add(view.getUndoButton());
+				undoPanel.add(view.getMainMenu());
 				//board is already in borderlayout
 				board.add(inputUndo, BorderLayout.NORTH);
 				board.add(view, BorderLayout.CENTER);
+				board.add(undoPanel, BorderLayout.SOUTH);
 
 				board.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				board.setSize(1110, 500);
+				board.setSize(1055, 700);
 				board.setVisible(true);
 			}
 		};

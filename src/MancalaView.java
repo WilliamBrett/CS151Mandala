@@ -55,7 +55,8 @@ public class MancalaView extends JPanel implements ChangeListener {
 		// undo controller
 		undo = new JButton("Undo");
 		undo.setBackground(Color.WHITE);
-		mainMenu = new JButton("Main Menu");
+		mainMenu = new JButton("Restart");
+		mainMenu.setBackground(Color.WHITE);
 		undo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				model.undo();
@@ -69,6 +70,10 @@ public class MancalaView extends JPanel implements ChangeListener {
 	 */
 	public JButton getUndoButton() {
 		return undo;
+	}
+	
+	public JButton getMainButton() {
+		return mainMenu;
 	}
 	
 	/**
