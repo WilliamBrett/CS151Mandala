@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * CS151 Project
@@ -58,30 +59,55 @@ public class CircleStyle implements BoardStyle {
 		String status = "";
 		int x = 240;
 		int y = 150;
+		
+		//making the greater outside ellipse
+		g2.setColor(new Color(192,128,0));
+		g2.fill(new Rectangle2D.Double(40, 90, 920, 268));
+		
 		g2.setColor(Color.BLACK);
 		g2.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		g2.drawString("Undos: " + model.p2UndoNum, 100, 80);
+		//setting color for A side
+		g2.setColor(new Color(50, 100,100));
 		g2.drawString("Undos: " + model.p1UndoNum, 850, 80);
+		g2.setColor(Color.BLACK);
 		//this for loop is used for drawing MANCALA next to the mancala pits.
 		for(int i = 0; i < mancala.length(); i++) {
 			g2.drawString(mancala.substring(i, i+1), 20, y);
+			
+			g2.setColor(new Color(50, 100,100));
 			g2.drawString(mancala.substring(i,i+1), 970, y);
+			g2.setColor(Color.black);
 			y += 20;
 		}
 		g2.drawString("B", 20, y + 30);
-		g2.drawString("A", 970, y + 30);
 		
+		g2.setColor(new Color(50, 100,100));
+		g2.drawString("A", 970, y + 30);
+		g2.setColor(Color.BLACK);
 		//used for labeling each pit. B6 B5 B4 ...
 		for(int i = 1; i < 7; i++) {
+			//setting the color to black for b side and grey blue for A side
+			g2.setColor(Color.BLACK);
 			g2.drawString("B" + (7-i), x, 85);
+			g2.setColor(new Color(50, 100,100));
 			g2.drawString("A" + (i), x, 375);
 			x += 100;
 		}
-		
+		g2.setColor(Color.BLACK);
 		//this draws each pit and the stones inside respective pits
 		for (int i = 0; i < pits.length; i++) {
-			//draws pits
-			g2.setColor(Color.WHITE);
+			//draws pits and sets christmas colors
+			if(i % 2 == 0)
+			{
+				g2.setColor(new Color(250, 200, 200));
+			}
+			else
+			{
+				g2.setColor(new Color(200, 250, 200));
+			}
+			
+			
 			g2.fill(pits[i]);
 			g2.draw(pits[i]);
 			
@@ -106,8 +132,8 @@ public class CircleStyle implements BoardStyle {
 					int colorValue = (int) (Math.random() * 60 + 105);
 					g2.setColor(new Color(colorValue, colorValue, colorValue));
 					//set to fill instead of draw so it draws the circles already filled with a color.
-					g2.fill(new Ellipse2D.Double( (float) pits[i].getBounds2D().getMinX() + (Math.random() * 50) + 20,
-							(float) pits[i].getBounds2D().getMinY() + (Math.random() * 50) + 10, 20, 20));
+					g2.fill(new Ellipse2D.Double( (float) pits[i].getBounds2D().getMinX() + (Math.random() * 100) + 20,
+							(float) pits[i].getBounds2D().getMinY() + (Math.random() * 200) + 10, 20, 20));
 				}
 			}
 			//this is mancala B
@@ -125,8 +151,8 @@ public class CircleStyle implements BoardStyle {
 					//this sets the stones to a random RBG color value
 					g2.setColor(new Color((int) (Math.random()* 20),(int) (Math.random()* 20), (int) (Math.random()* 20)));
 					//set to fill instead of draw so it draws the circles already filled with a color.
-					g2.fill(new Ellipse2D.Double( (float) pits[i].getBounds2D().getMinX() + (Math.random() * 50) + 20,
-							(float) pits[i].getBounds2D().getMinY() + (Math.random() * 50) + 10, 20, 20));
+					g2.fill(new Ellipse2D.Double( (float) pits[i].getBounds2D().getMinX() + (Math.random() * 100) + 20,
+							(float) pits[i].getBounds2D().getMinY() + (Math.random() * 200) + 10, 20, 20));
 				}
 			}
 			
@@ -166,8 +192,9 @@ public class CircleStyle implements BoardStyle {
 					g2.drawString(status, 50, 400);
 				}
 			}
+			g2.setColor(Color.BLACK);
 			if(model.error) {
-				g2.drawString("ERROR: " + model.getErrorMessage(), 350,450);
+				g2.drawString("ERROR: " + model.getErrorMessage(), 250,450);
 			}
 		}
 	}
