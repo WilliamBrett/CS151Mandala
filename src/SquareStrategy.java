@@ -14,7 +14,7 @@ import java.awt.geom.Rectangle2D;
 /**
  * Represents a style with square pits. A concrete strategy.
  */
-public class SquareStyle implements BoardStyle {
+public class SquareStrategy implements Strategy {
 
 	Shape[] pits;
 	int[] modelPits;
@@ -50,7 +50,7 @@ public class SquareStyle implements BoardStyle {
 		int y = 150;
 		g2.setColor(Color.DARK_GRAY);
 		g2.setFont(new Font("Courier New", Font.BOLD, 23));
-		g2.drawString(mancala, 380, 30);
+		g2.drawString(mancala, 340, 30);
 		
 		g2.setColor(Color.BLACK);
 		g2.setFont(new Font("Courier New", Font.BOLD, 20));
@@ -158,7 +158,7 @@ public class SquareStyle implements BoardStyle {
 			}
 
 			if(model.error) {
-				g2.drawString("ERROR: " + model.getErrorMessage(), 230,40);
+				g2.drawString("ERROR: " + model.getErrorMessage(), 70,440);
 			}
 		}
 	}

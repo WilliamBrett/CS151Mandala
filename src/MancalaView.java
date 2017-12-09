@@ -25,7 +25,7 @@ import javax.swing.event.ChangeListener;
 public class MancalaView extends JPanel implements ChangeListener {
 	
 	private MancalaModel model;
-	private BoardStyle style;
+	private Strategy style;
 	private Shape[] pits;
 	private JButton mainMenu;
 	private JButton undo;
@@ -35,7 +35,7 @@ public class MancalaView extends JPanel implements ChangeListener {
 	 * @param model the model
 	 * @param style strategy pattern, can take any BoardStyle
 	 */
-	public MancalaView(MancalaModel model, BoardStyle style) {
+	public MancalaView(MancalaModel model, Strategy style) {
 		this.model = model;
 		this.style = style;
 		this.model.attach(this);

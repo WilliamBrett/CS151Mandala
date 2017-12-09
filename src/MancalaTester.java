@@ -11,7 +11,7 @@ import javax.swing.*;
 /**
  * Tester
  */
-public class MainTester {
+public class MancalaTester {
 		static public JFrame mainFrame;
 		static public MancalaModel model;
 		
@@ -30,8 +30,8 @@ public class MainTester {
 		squareView.setBackground(Color.WHITE);
 				
 		JPanel thePanel = new JPanel();
-		circleView.addActionListener(chooseView(new CircleStyle()));
-		squareView.addActionListener(chooseView(new SquareStyle()));
+		circleView.addActionListener(chooseView(new CircleStrategy()));
+		squareView.addActionListener(chooseView(new SquareStrategy()));
 		thePanel.setLayout(new GridLayout(1,2));
 		thePanel.add(circleView);
 		thePanel.add(squareView);
@@ -48,7 +48,7 @@ public class MainTester {
 	 * @param 
 	 * @return 
 	 */
-	public static ActionListener chooseView(BoardStyle strat) {
+	public static ActionListener chooseView(Strategy strat) {
 			
 		return new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
