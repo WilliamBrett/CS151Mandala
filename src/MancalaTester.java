@@ -74,7 +74,7 @@ public class MancalaTester {
 				inputUndo.setLayout(new GridLayout(1,2));
 				inputUndo.setSize(600, 10);
 				view.getUndoButton().setVisible(false);
-				view.setVisible(false);
+				view.setVisible(true);
 				//prompts user for number of starting stones, attach to board frame
 				JButton prompt = new JButton("Choose # of stones: 3 or 4");
 				prompt.setEnabled(false);
